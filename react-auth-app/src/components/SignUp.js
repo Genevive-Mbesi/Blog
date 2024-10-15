@@ -1,21 +1,65 @@
-// src/components/SignUp.js (or SignIn.js)
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";  // Make sure this import is correct
+import { auth } from "../firebase";  // Ensure this path is correct
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
+
+  
+  const validatePassword = (password) => {
+    
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long.";
+    }
+    if (!hasLetter) {
+      return "Password must contain at least one letter.";
+    }
+    if (!hasNumber) {
+      return "Password must contain at least one number.";
+    }
+    if (!hasSpecialChar) {
+      return "Password must contain at least one punctuation mark.";
+    }
+    return null;  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null); 
+
+    // Validate the password
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Sign-up failed", error.message); // Add error.message to see the details
+      
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setError("This email is already in use. Please try another one.");
+          break;
+        case "auth/invalid-email":
+          setError("The email address is not valid.");
+          break;
+        case "auth/weak-password":
+          setError("The password is too weak.");
+          break;
+        default:
+          setError("Sign-up failed. Please try again.");
+      }
     }
   };
 
@@ -23,6 +67,11 @@ const SignUp = () => {
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up</h2>
+        {error && (
+          <div className="text-red-500 text-sm mb-4 text-center">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
