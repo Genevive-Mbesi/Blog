@@ -1,10 +1,10 @@
-# React Dashboard with Tic-Tac-Toe and Firebase Authentication
-This project is a simple dashboard built with React, featuring a Tic-Tac-Toe game and Firebase authentication. Users can log in, play the game, and log out. The app is styled using Tailwind CSS with a teal color scheme.
+# React Dashboard with xxx-ooo game and Firebase Authentication
+This project is a simple dashboard built with React, featuring a xxx-ooo game and Firebase authentication. Users can log in, play the game, and log out. The app is styled using Tailwind CSS with a teal color scheme.
 
 ## Features
 User Authentication: Allows users to sign in and sign out via Firebase.
 
-Tic-Tac-Toe Game: A fully functional Tic-Tac-Toe game that tracks the winner and allows users to jump to previous moves.
+xxx-ooo Game: A fully functional 2 player xxx-ooo game that tracks the winner and allows users to jump to previous moves.
 
 Responsive Design: The app is styled using Tailwind CSS, ensuring it looks great on all screen sizes.
 
