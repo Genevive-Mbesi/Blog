@@ -101,7 +101,10 @@ export default function Dashboard() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center text--600 mb-6">
-          xxx-ooo Game
+          
+          Two Player Game<br/>
+          xxx-ooo 
+          
         </h2>
         <Game onLogout={handleLogout} />
       </div>
