@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";  // Ensure this path is correct
+import { auth } from "../firebase";  
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
-  const [error, setError] = useState(null); // State to store error messages
+  const [confirmPassword, setConfirmPassword] = useState(""); 
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
 
-  // Custom password validation function
+
   const validatePassword = (password) => {
     const hasLetter = /[a-zA-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
@@ -44,7 +44,7 @@ const SignUp = () => {
 
     // Check if password and confirm password match
     if (password !== confirmPassword) {
-      setError("Confirm password is incorrect."); // Specific warning for confirm password
+      setError("Confirm password is incorrect."); 
       return;
     }
 
