@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); 
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
+  const [error, setError] = useState(null); // State to store error messages
   const navigate = useNavigate();
 
-  
+  // Custom password validation function
   const validatePassword = (password) => {
-    
     const hasLetter = /[a-zA-Z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -28,12 +28,12 @@ const SignUp = () => {
     if (!hasSpecialChar) {
       return "Password must contain at least one punctuation mark.";
     }
-    return null;  
+    return null;  // No errors
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); 
+    setError(null); // Clear any existing error messages before a new attempt
 
     // Validate the password
     const passwordError = validatePassword(password);
@@ -42,11 +42,17 @@ const SignUp = () => {
       return;
     }
 
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+      setError("Confirm password is incorrect."); // Specific warning for confirm password
+      return;
+    }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
     } catch (error) {
-      
+      // Handle Firebase-specific errors
       switch (error.code) {
         case "auth/email-already-in-use":
           setError("This email is already in use. Please try another one.");
@@ -86,6 +92,14 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            required
+            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-light-green-500"
+          />
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm Password"
             required
             className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-light-green-500"
           />
